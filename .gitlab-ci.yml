@@ -1,0 +1,111 @@
+stages:
+  - build
+  - deploy
+
+# Variables
+variables:
+  GIT_STRATEGY: clone
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+  # GitLab Container Registry
+  CI_REGISTRY: registry.gitlab.com
+  CI_REGISTRY_IMAGE: registry.gitlab.com/finranks1/finranks-frontend-web
+  # Server configuration
+  SERVER_PATH: "/var/www/finranks-front/finranks-frontend-web"
+  CONTAINER_NAME: "finranks-frontend-web"
+  CONTAINER_PORT: "3001"
+
+# Build Docker image on GitLab CI
+build:
+  stage: build
+  image: docker:27.3.1
+  services:
+    - docker:27.3.1-dind
+  before_script:
+    - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+  script:
+    - echo "Building Finranks Frontend Docker image..."
+    - echo "Build-time env vars:"
+    - echo "  NEXT_PUBLIC_GOOGLE_CLIENT_ID is set"
+    - echo "  NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL"
+    - |
+      docker build -f docker/prod/Dockerfile \
+        --build-arg NEXT_PUBLIC_GOOGLE_CLIENT_ID="$NEXT_PUBLIC_GOOGLE_CLIENT_ID" \
+        --build-arg NEXT_PUBLIC_API_URL="$NEXT_PUBLIC_API_URL" \
+        -t $CI_REGISTRY_IMAGE:latest \
+        -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
+    - echo "Pushing image to GitLab Container Registry..."
+    - docker push $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    - echo "Image built and pushed successfully!"
+  only:
+    - main
+
+# Deploy to server
+deploy:
+  stage: deploy
+  image: ubuntu:22.04
+  needs:
+    - build
+  before_script:
+    # Install dependencies
+    - apt-get update -qq && apt-get install -y -qq openssh-client
+
+    # Setup SSH
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+    # Add SSH key (set SSH_PRIVATE_KEY in GitLab CI/CD Variables)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-add ~/.ssh/id_rsa
+
+    # Add server to known hosts
+    - ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - |
+      ssh -o StrictHostKeyChecking=no deploy@$SERVER_IP << EOF
+        set -e
+
+        echo 'Logging into GitLab Container Registry...'
+        echo "${CI_DEPLOY_PASSWORD}" | docker login -u "${CI_DEPLOY_USER}" --password-stdin registry.gitlab.com
+
+        echo 'Stopping existing containers...'
+        docker stop ${CONTAINER_NAME} 2>/dev/null || true
+        docker rm ${CONTAINER_NAME} 2>/dev/null || true
+
+        echo 'Removing old images...'
+        docker rmi ${CI_REGISTRY_IMAGE}:latest 2>/dev/null || true
+
+        echo 'Pulling latest image from registry...'
+        docker pull ${CI_REGISTRY_IMAGE}:latest
+
+        echo 'Starting container...'
+        docker run -d \
+          --name ${CONTAINER_NAME} \
+          --restart unless-stopped \
+          -p ${CONTAINER_PORT}:${CONTAINER_PORT} \
+          --env-file ${SERVER_PATH}/.env.local \
+          ${CI_REGISTRY_IMAGE}:latest
+
+        echo 'Waiting for container to start...'
+        sleep 5
+
+        echo 'Verifying container status...'
+        if docker ps | grep -q ${CONTAINER_NAME}; then
+          echo 'Finranks deployment completed successfully!'
+          echo ''
+          echo 'Container logs (last 30 lines):'
+          docker logs --tail 30 ${CONTAINER_NAME}
+          echo ''
+          echo "Application available at: http://${SERVER_IP}:${CONTAINER_PORT}"
+        else
+          echo 'Container failed to start. Checking logs...'
+          docker logs ${CONTAINER_NAME} 2>/dev/null || echo 'No logs available'
+          exit 1
+        fi
+      EOF
+  only:
+    - main

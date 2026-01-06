@@ -1,0 +1,53 @@
+{
+  "name": "finranks",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start",
+    "analyze": "ANALYZE=true npm run build",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^4.6.2",
+    "@fingerprintjs/fingerprintjs-pro-react": "^2.6.3",
+    "@finranks/design-system": "workspace:*",
+    "@finranks/internationalization": "workspace:*",
+    "@finranks/next-config": "workspace:*",
+    "cp-react-tree-table": "^1.1.2",
+    "@nivo/bar": "^0.99.0",
+    "@nivo/line": "^0.99.0",
+    "@nivo/pie": "^0.99.0",
+    "@nivo/radar": "^0.99.0",
+    "@t3-oss/env-nextjs": "^0.13.8",
+    "@uidotdev/usehooks": "^2.4.1",
+    "axios": "^1.7.7",
+    "formik": "^2.4.9",
+    "lodash": "^4.17.21",
+    "lucide-react": "^0.548.0",
+    "next": "16.0.7",
+    "next-auth": "^5.0.0-beta.28",
+    "nuqs": "^2.8.5",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "ua-parser-js": "^2.0.6",
+    "yup": "^1.7.1",
+    "zod": "^4.1.12",
+    "recharts": "^2.13.3",
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.0",
+    "@finranks/typescript-config": "workspace:*",
+    "@tailwindcss/postcss": "^4",
+    "@types/lodash": "^4.17.20",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "1.0.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,35 @@
+services:
+  frontend:
+    build:
+      context: ../../
+      dockerfile: ./docker/prod/Dockerfile
+      args:
+        - NEXT_PUBLIC_GOOGLE_CLIENT_ID=${NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://dev-api.finranks.com/v1}
+    image: finranks-frontend-web:latest
+    container_name: finranks-frontend-web
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3001}:3001"
+    volumes:
+      - ./logs:/app/logs
+    env_file:
+      - ../../.env.local
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - finranks-network
+
+networks:
+  finranks-network:
+    name: finranks-frontend-web-network
+    driver: bridge

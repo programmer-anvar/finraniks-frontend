@@ -1,0 +1,26 @@
+<svg width="62" height="62" viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_b_914_36001)">
+<rect width="62" height="62" rx="10" fill="url(#paint0_linear_914_36001)"/>
+<rect x="0.25" y="0.25" width="61.5" height="61.5" rx="9.75" stroke="url(#paint1_radial_914_36001)" stroke-width="0.5"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M22.5031 34.8694C22.5031 36.5778 21.1243 37.9567 19.4159 37.9567C17.7074 37.9567 16.3286 36.5732 16.3286 34.8694C16.3286 33.1656 17.7074 31.7821 19.4159 31.7821H22.5031V34.8694ZM24.0444 34.8694C24.0444 33.161 25.4233 31.7821 27.1317 31.7821C28.8401 31.7821 30.219 33.161 30.219 34.8694V42.5852C30.219 44.2937 28.8401 45.6725 27.1317 45.6725C25.4233 45.6725 24.0444 44.2937 24.0444 42.5852V34.8694Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M27.1305 22.4789C25.4221 22.4789 24.0432 21.1001 24.0432 19.3916C24.0432 17.6832 25.4221 16.3044 27.1305 16.3044C28.8389 16.3044 30.2178 17.6832 30.2178 19.3916V22.4789H27.1305ZM27.1305 24.0434C28.8389 24.0434 30.2178 25.4222 30.2178 27.1307C30.2178 28.8391 28.8389 30.2179 27.1305 30.2179H19.3915C17.683 30.2179 16.3042 28.8345 16.3042 27.1307C16.3042 25.4269 17.683 24.0434 19.3915 24.0434H27.1305Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M39.4971 27.1307C39.4971 25.4222 40.8759 24.0434 42.5843 24.0434C44.2928 24.0434 45.6716 25.4222 45.6716 27.1307C45.6716 28.8391 44.2928 30.2179 42.5843 30.2179H39.4971V27.1307ZM37.9558 27.1307C37.9558 28.8391 36.5769 30.2179 34.8685 30.2179C33.1601 30.2179 31.7812 28.8391 31.7812 27.1307V19.3916C31.7812 17.6832 33.1601 16.3044 34.8685 16.3044C36.5769 16.3044 37.9558 17.6832 37.9558 19.3916V27.1307Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M34.8685 39.498C36.5769 39.498 37.9558 40.8768 37.9558 42.5852C37.9558 44.2937 36.5769 45.6725 34.8685 45.6725C33.1601 45.6725 31.7812 44.2937 31.7812 42.5852V39.498H34.8685ZM34.8685 37.9567C33.1601 37.9567 31.7812 36.5778 31.7812 34.8694C31.7812 33.161 33.1601 31.7821 34.8685 31.7821H42.6076C44.316 31.7821 45.6948 33.161 45.6948 34.8694C45.6948 36.5778 44.316 37.9567 42.6076 37.9567H34.8685Z" fill="white"/>
+</g>
+<defs>
+<filter id="filter0_b_914_36001" x="-30" y="-30" width="122" height="122" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feGaussianBlur in="BackgroundImageFix" stdDeviation="15"/>
+<feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_914_36001"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_914_36001" result="shape"/>
+</filter>
+<linearGradient id="paint0_linear_914_36001" x1="59.5" y1="2" x2="-4.5" y2="58.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0.3"/>
+<stop offset="1" stop-color="white" stop-opacity="0.1"/>
+</linearGradient>
+<radialGradient id="paint1_radial_914_36001" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(46 16.5) rotate(108.246) scale(47.9088)">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>

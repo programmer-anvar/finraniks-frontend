@@ -1,0 +1,3 @@
+# Disallow all crawlers (test/staging environment)
+User-agent: *
+Disallow: /
